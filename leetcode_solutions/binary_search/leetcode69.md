@@ -26,8 +26,10 @@ public:
         while (left < right)
         {
             int mid = (left + (long long)right + 1) >> 1;
-            if (mid <= x / mid) left = mid;
-            else right = mid - 1;
+            if (mid > x / mid)
+                right = mid - 1;
+            else
+                left = mid;
         }
         return right;
     }
