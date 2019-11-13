@@ -4,48 +4,41 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> res;
+        if (nums.size() == 0) return {-1, -1};
+        vector<int> ret;
         
-        // left boundry
-        int left = 0, right = nums.size();
+        // find left boundary
+        int left = 0;
+        int right = nums.size() - 1;
         while (left < right)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
-                right = mid;
-            else if (nums[mid] < target)
+            int mid = (unsigned)(left + right) >> 1;	// get left median
+            cout << mid << endl;
+            if (nums[mid] < target)
                 left = mid + 1;
-            else if (nums[mid] > target)
+            else
                 right = mid;
         }
-        res.push_back(left);
+        (nums[left] == target) ? ret.push_back(left) : ret.push_back(-1);
         
-        // right boundry
+        // find right boundary
         left = 0;
-        right = nums.size();
+        right = nums.size() - 1;
         while (left < right)
         {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] == target)
-                left = mid + 1;
-            else if (nums[mid] < target)
-                left = mid + 1;
-            else if (nums[mid] > target)
-                right = mid;
+            int mid = (unsigned)(left + right + 1) >> 1;	// get right median
+            if (nums[mid] > target)
+                right = mid - 1;
+            else
+                left = mid;
         }
-        res.push_back(left - 1);
-        
-        if (res[0] > res[1])
-        {
-            res[0] = -1;
-            res[1] = -1;
-        }
-        return res;
+        (nums[left] == target) ? ret.push_back(left) : ret.push_back(-1);
+        return ret;
     }
 };
 ```
 
 - 使用二分查找分别找出左右边界
 
-参考[二分查找算法细节详解](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/er-fen-cha-zhao-suan-fa-xi-jie-xiang-jie-by-labula)
+参考[十分好用的二分查找模板]( https://leetcode-cn.com/problems/search-insert-position/solution/te-bie-hao-yong-de-er-fen-cha-fa-fa-mo-ban-python-/ )
 
