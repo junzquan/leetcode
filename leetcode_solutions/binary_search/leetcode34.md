@@ -42,3 +42,9 @@ public:
 
 参考[十分好用的二分查找模板]( https://leetcode-cn.com/problems/search-insert-position/solution/te-bie-hao-yong-de-er-fen-cha-fa-fa-mo-ban-python-/ )
 
+
+
+### 复杂度分析
+
+- 时间复杂度：O(log N)
+- 空间复杂度：O(1)
