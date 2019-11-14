@@ -4,20 +4,24 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int left = 0, right = nums.size() - 1;
+        int left = 0;
+        int right = nums.size() - 1;
         while (left < right)
         {
-            int mid = left + (right - left) / 2;
-            if ((nums[mid] > nums[mid + 1]) || ((nums[mid] < nums[mid + 1]) && nums[right] < nums[mid]))
+            int mid = (unsigned)(left + right) >> 1;
+            if(nums[mid] > nums[right])
+            {
                 left = mid + 1;
+            }
             else
+            {
                 right = mid;
+            }
         }
         return nums[left];
     }
 };
 ```
 
-- 当`nums[mid] > nums[mid + 1]` 时，最小值在右半部分；
-- 当`nums[mid] < nums[mid + 1]` 且 `nums[right] < nums[mid]` 时，最小值在右半部分；
-- 其余情况最小值在左半部分。
+- 当`nums[mid] > nums[right]` 时，`nums[mid]` 不可能是最小值，将其排除，并搜索右半部分；
+- 否则 `nums[mid]` 有可能是最小值，保留 `nums[mid]`，搜索左半部分。
