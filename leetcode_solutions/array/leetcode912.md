@@ -108,12 +108,12 @@ public:
     vector<int> sortArray(vector<int>& nums) {
         int lo = 0;
         int hi = nums.size() - 1;
-        quickSort(nums, lo, hi);
+        threeWayQuickSort(nums, lo, hi);
         return nums;
     }
     
 private:
-    void quickSort(vector<int>& nums, int lo, int hi)
+    void threeWayQuickSort(vector<int>& nums, int lo, int hi)
     {
         while (hi <= lo + CUTOFF)
         {
@@ -130,8 +130,8 @@ private:
             else                  i++;
         }
         
-        quickSort(nums, lo, lt - 1);
-        quickSort(nums, gt + 1, hi);
+        threeWayQuickSort(nums, lo, lt - 1);
+        threeWayQuickSort(nums, gt + 1, hi);
     }
     
     void insertionSort(std::vector<int> &vec, int lo, int hi)
