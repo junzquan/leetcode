@@ -1,38 +1,74 @@
-# [66. 加一](https://leetcode-cn.com/problems/plus-one/)
+# [75. 颜色分类](https://leetcode-cn.com/problems/sort-colors/)(荷兰国旗问题)
 
 ```cpp
 class Solution {
 public:
-    vector<int> plusOne(vector<int>& digits) {
-        for (int i = digits.size() - 1; i >= 0; i--)
+    void sortColors(vector<int>& nums) {
+        int p0 = 0;
+        int i  = 0;
+        int p2 = nums.size() - 1;
+        while (i <= p2)
         {
-            if (digits[i] == 9)
-            {
-                digits[i] = 0;
-            }
-            else
-            {
-                digits[i]++;
-                break;
-            }
+            if      (nums[i] == 0) swap(nums[i++], nums[p0++]);
+            else if (nums[i] == 2) swap(nums[i],   nums[p2--]);
+            else    i++;
         }
-        if (digits[0] == 0)
-        {
-            digits[0] = 1;
-            digits.push_back(0);
-        }
-        return digits;
     }
 };
 ```
 
-- 当 `digits[i] == 9` 时，直接让 `digits[i] = 1`，进入下一轮循环；
-- 直到 `digits[i] != 9`，然后 `digits[i]++`，退出循环；
-- 如果是一个全为 `9` 的数，比如 `999`， 循环结束后 `digits` 的元素会全部为 `0`，这时令 `digits[0] = 1`，然后在数组最后加个 `0` 即可。
-
-
+- 实际上是使用了三向切分的快速排序的思想
 
 ### 复杂度分析
 
 - 时间复杂度：O(N)
 - 空间复杂度：O(1)
+
+
+
+### 三向切分的快速排序
+
+```cpp
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int lo = 0;
+        int hi = nums.size() - 1;
+        threeWayQuickSort(nums, lo, hi);
+    }
+    
+private:
+    void threeWayQuickSort(vector<int>& nums, int lo, int hi)
+    {
+        if (hi <= lo + CUTOFF)
+        {
+            insertionSort(nums, lo, hi);
+            return;
+        }
+        int lt = lo, gt = hi;
+        int i = lo + 1;
+        int v = nums[lo];
+        while (i <= gt)
+        {
+            if (nums[i] < v)      swap(nums[lt++], nums[i++]);
+            else if (nums[i] > v) swap(nums[gt--], nums[i]);
+            else                  i++;
+        }
+        
+        threeWayQuickSort(nums, lo, lt - 1);
+        threeWayQuickSort(nums, gt + 1, hi);
+    }
+    
+    void insertionSort(std::vector<int> &vec, int lo, int hi)
+    {
+        if (vec.size() < 2)
+            return;
+        for (int i = lo; i < hi + 1; i++)
+            for (int j = i - 1; j >= 0 && vec[j] > vec[j + 1]; j--)
+                swap(vec[j], vec[j + 1]);
+    }
+    
+    static const int CUTOFF = 15;
+};
+```
+
