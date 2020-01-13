@@ -34,3 +34,51 @@ private:
 
 - 时间复杂度：O(N)
 - 空间复杂度：O(log N)
+
+
+
+## 迭代
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        stack<TreeNode*> s;
+        while (root != nullptr || !s.empty())
+        {
+            while (root != nullptr)
+            {
+                s.push(root);
+                root = root->left;
+            }
+
+            if (!s.empty())
+            {
+                TreeNode* node = s.top();
+                s.pop();
+                TreeNode* tmp = node->right;
+                node->right = node->left;
+                node->left = nullptr;
+
+                while (node->right != nullptr) node = node->right;
+                node->right = tmp;
+                root = tmp;
+            }
+        }
+    }
+};
+```
+
+### 复杂度分析
+
+- 时间复杂度：O(N)
+- 空间复杂度：O(log N)
