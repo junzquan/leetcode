@@ -138,5 +138,5 @@ private:
 ### 复杂度分析
 
 - 时间复杂度：O(N)
-- 空间复杂度：O(h)
+- 空间复杂度：O(H), H for height of BST
 
