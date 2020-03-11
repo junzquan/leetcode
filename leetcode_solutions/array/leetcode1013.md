@@ -4,12 +4,9 @@
 class Solution {
 public:
     bool canThreePartsEqualSum(vector<int>& A) {
-        int ans = false;
         int sum = 0;
-        for (auto i : A)
-            sum += i;
-        if (sum % 3 != 0)
-            return ans;
+        for (auto i : A) sum += i;
+        if (sum % 3 != 0) return false;
 
         int cnt = 0;
         int part_sum = 0;
@@ -17,9 +14,13 @@ public:
         for (auto i : A)
         {
             part_sum += i;
-            if (part_sum == average)
+            if (part_sum == average && cnt <= 2)
             {
                 part_sum = 0;
+                cnt++;
+            }
+            else if (i == A.size() - 1 && cnt == 2)
+            {
                 cnt++;
             }
         }
